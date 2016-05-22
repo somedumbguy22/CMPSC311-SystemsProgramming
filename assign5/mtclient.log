@@ -1,0 +1,12 @@
+Command: INIT
+Return value: 0
+Command: EROR
+Return value: 1
+Command: EROR
+Return value: 1
+Command: EROR
+Return value: 1
+Command: EROR
+Return value: 1
+Command: DEST
+Return value: 0

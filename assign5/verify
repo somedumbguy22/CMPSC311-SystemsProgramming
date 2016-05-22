@@ -1,0 +1,74 @@
+#! /bin/bash
+
+if [[ "$1" != "-a" ]]; then
+	set -e
+fi
+
+check_md5() {
+	workload=$1
+	correct=$2
+
+	printf 'Workload %s... ' "$workload" 1>&2
+
+	./server -o mtserver.log | (
+		read dummy pid
+		./client -o mtclient.log < "workload/$workload"
+		kill $pid
+	)
+
+	actual=$(cat mtclient.log mtserver.log | md5sum | colrm 33)
+	if [[ "$actual" != "$correct" ]]; then
+		echo FAIL 1>&2
+		return 1
+	fi
+	echo PASS 1>&2
+}
+
+check_md5 00-init 3425dbe1d8eac16a3ad627915c282cc6
+check_md5 01-destroy 32a747119c01f4b1d77ebb3c24656ca1
+check_md5 02-putpixel db0a9cc8212b0e0df8d1a4a44751d4f3
+check_md5 03-putpixel 5379360ef3e3e34e47270921b20418f9
+check_md5 04-putpixel 730e585d23c1c4c1716af5303a631b13
+check_md5 05-putpixel 83c246005df183fbbd65052ddd5c8b6f
+check_md5 05-putpixel-bounds 328652c620bda8391b44958ce01d6ec3
+check_md5 06-putpixel-bounds 328652c620bda8391b44958ce01d6ec3
+check_md5 07-putpixel-bounds 328652c620bda8391b44958ce01d6ec3
+check_md5 08-getpixel 9e8d0fbe7a0874e292c83ec6c41271a2
+check_md5 09-getpixel ac5c0ba7b80e812f674f11d9618b02a1
+check_md5 10-getpixel 8cc6e88523e359db62f3ff7646045557
+check_md5 11-getpixel ec2ae06d93deacdc4088ffc5a1e8fc52
+check_md5 12-getpixel-bounds a4ee6412c54a6d93c2e73d6e38816cd5
+check_md5 13-getpixel-bounds a4ee6412c54a6d93c2e73d6e38816cd5
+check_md5 14-getpixel-bounds a4ee6412c54a6d93c2e73d6e38816cd5
+check_md5 15-putrect 06a230a57881c6665f42722764575a31
+check_md5 16-putrect cd84635a5b6e6154e17d9919b876f1b7
+check_md5 17-putrect 7b0fde2adb5bbda230990bd7c9ce95f9
+check_md5 18-putrect 1ff3a795c5e710548bdf4f3bc73f29f9
+check_md5 19-putrect 67b49e06f9885d2a0bd9c2579947a72c
+check_md5 20-putrect e4c9f9943ed5a388acb06a62519c495d
+check_md5 21-putrect 771996da91e3d11b803d72ae8e189546
+check_md5 22-putrect 84dfa8d9f4fedbd800c3e8cd6940459e
+check_md5 23-putrect 7092dbc7d7cb01da0bd6688d3248041c
+check_md5 24-putrect-bounds 1f029eb06d100fad547e1781e224e4b1
+check_md5 25-putrect-bounds 1f029eb06d100fad547e1781e224e4b1
+check_md5 26-putrect-bounds 1f029eb06d100fad547e1781e224e4b1
+check_md5 27-putrect-bounds 1f029eb06d100fad547e1781e224e4b1
+check_md5 28-putrect-bounds 1f029eb06d100fad547e1781e224e4b1
+check_md5 29-putrect-bounds 1f029eb06d100fad547e1781e224e4b1
+check_md5 30-getrect aafeb24a56640ee28d5f196cbd1e8727
+check_md5 31-getrect d72bab6ed8460163bde7439b0ff43917
+check_md5 32-getrect 2e9490f75f4098fa34184ccbb86ae557
+check_md5 33-getrect a55f77ac39c42cfbb1a8a1dc11b0a644
+check_md5 34-getrect be6c1b5316d531f113571b8377566ab8
+check_md5 35-getrect 24b7060188a9a26c5066e557c1d99725
+check_md5 36-getrect 60508449a1f005d184023b26b54a2025
+check_md5 37-getrect bdf7524852ec31bfd12b5fd3c021ba24
+check_md5 38-getrect 45690e72b6cd9e2a5aef590262c2e5af
+check_md5 39-getrect-bounds d9446de9cf9eea5fbf956b7db2d0519d
+check_md5 40-getrect-bounds d9446de9cf9eea5fbf956b7db2d0519d
+check_md5 41-getrect-bounds d9446de9cf9eea5fbf956b7db2d0519d
+check_md5 42-getrect-bounds d9446de9cf9eea5fbf956b7db2d0519d
+check_md5 43-getrect-bounds d9446de9cf9eea5fbf956b7db2d0519d
+check_md5 44-getrect-bounds d9446de9cf9eea5fbf956b7db2d0519d
+check_md5 45-multirect 2bc34090a7e9c02c9e55e8c6c681149b
+check_md5 46-retval-errors 28c25dbdd7c8409c5e6945bb56928225
