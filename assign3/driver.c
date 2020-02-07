@@ -291,9 +291,7 @@ int mtron_putrect(struct multitron *mtron, uint32_t x, uint32_t y,
 	uint8_t pixelSquare[256];
 
 	//Some counting variables for "for" loops
-	int i = 0;
-	int k = 0;
-	int kount = 0;
+	int i;
 
 	//used to determine which screen is active
 	int row = (y / 128);
@@ -317,16 +315,11 @@ int mtron_putrect(struct multitron *mtron, uint32_t x, uint32_t y,
 	//make sure pixels fit in a single screen
 	uint32_t currentDisplayRow = y - (row * 128);
 	uint32_t currentDisplayColumn = x - (column * 256);
-
-	//Initialize variables
-	i = 0;
-	k = 0;
-	kount = 0;
 	
 	//The following for loop goes until all rows are covered
 	for(i = currentDisplayRow; i < (h + currentDisplayRow); i++)
 	{
-		
+		int k=0, kount=0;
 		//Forming an op-code with bit-wise operations
 		mtron->op = 0x0;
 		uint32_t blank = 0x0;
